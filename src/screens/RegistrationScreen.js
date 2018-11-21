@@ -4,6 +4,7 @@ import InfoInput from '../components/InfoInput.js';
 import GreenContainer from '../components/greenContainer.js';
 import { connect } from 'react-redux';
 import createNewUser from '../actions/signup';
+import { Actions } from 'react-native-router-flux';
 
 
 class Registration extends Component {
@@ -58,7 +59,7 @@ class Registration extends Component {
 				<View style={styles.header}>
 					<TouchableOpacity 
 						style={styles.iconContainer}
-						onPress={() => {}}
+						onPress={Actions.logscr}
 					>
 						<Image
 							style={styles.icon}
@@ -106,6 +107,7 @@ class Registration extends Component {
 
 const styles = StyleSheet.create({
 	container: {
+		backgroundColor: 'white',
 		flex: 1,
 	},
 
@@ -153,3 +155,4 @@ const RegistrationScreen = connect(mapStateToProps, mapDispatchToProps)(Registra
 export default RegistrationScreen;
 
 
+ 

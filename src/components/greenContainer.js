@@ -6,7 +6,7 @@ export default class GreenContainer extends Component {
 	render() {
 		return (
 			<TouchableOpacity
-				onPress={this.props.callback()}
+				onPress={this.props.callback}
 			>
 				<View style={styles.container}>
 					<Text style={styles.textInput}>

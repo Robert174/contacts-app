@@ -32,15 +32,17 @@ export default function login(payload){
 		dispatch(sendingData());
 		axios
 			.post('/api/users/login', payload)
-			.then(res =>{
-				dispatch(succesLogin());
-				var token = res.headers[x-auth];
+			.then(res => {
+				dispatch(successLogin());
+				const token = res.headers['x-auth'];
 				AsyncStorage.setItem('jwt', token);
 				setAuthToken(token);
 				const decoded = jwt_decode(token);
 				dispatch(setUser(decoded));
 				Actions.main();
 			})
-			.catch(err => dispatch(errorLogin(err.response.data)))
+			.catch(err => {
+				dispatch(errorLogin(err.response.data));
+			});
 	}
 }

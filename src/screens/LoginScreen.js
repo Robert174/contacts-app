@@ -2,14 +2,45 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image, TextInput } from 'react-native';
 import { LinearGradient } from 'expo';
 import { Actions } from 'react-native-router-flux';
+import login from '../actions/login';
+import { connect } from 'react-redux';
 
-
-export default class LoginScreen extends Component {
+class Login extends Component {
 	static navigationOptions = {
 		header: null
 	};
 
+	state = {
+		email: '',
+		password: '',
+		errors: {}
+	}
+
+	onEmailChange(text) {
+		this.setState({ email: text});
+	}
+
+	onPasswordChange(text) {
+		this.setState({ password: text});
+	}
+
+	handleRequest() {
+		var{ email, password } = this.state;
+		const payload = {email, password};
+
+		this.props.login(payload);
+	}
+
+	componentWillReceiveProps(nextProps) {
+		if(nextProps.errors) {
+			this.setState({
+				errors: nextProps.errors
+			})
+		}
+	}
+
 	render() {
+		var { errors } = this.state;
 		return (
 			<LinearGradient colors={['#00daad', '#00b1fa']} style={styles.linearGradient}>
 				<View style={styles.iconContainer}>
@@ -29,8 +60,12 @@ export default class LoginScreen extends Component {
 					<View style={styles.numberContainer}>
 						<TextInput 
 							style={styles.number} 
-							placeholder='Номер телефона'
+							placeholder='Введите почту'
+							onChangeText={this.onEmailChange.bind(this)}
+							autoCapitalize='none'
+							autoCorrect={false}
 						/>
+						{errors.email && <Text style={{color: 'red', fontSize: 10, position: 'absolute', top: 0, alignSelf: 'center'}}>{errors.email}</Text>}
 					</View>
 					<View stile={styles.line}>
 					</View>
@@ -38,12 +73,17 @@ export default class LoginScreen extends Component {
 						<TextInput 
 							style={styles.password} 
 							placeholder='Пароль'
+							onChangeText={this.onPasswordChange.bind(this)}
+							secureTextEntry 
+							autoCapitalize='none'
+							autoCorrect={false}
 						/>
+						{errors.password && <Text style={{color: 'red', fontSize: 10, position: 'absolute', top: 0, alignSelf: 'center'}}>{errors.password}</Text>}
 					</View>
 				</View>
 				<TouchableOpacity 
 					style={styles.entryContainer}
-					onPress={() => {}}
+					onPress={this.handleRequest.bind(this)}
 				>
 					<Text style={styles.entry}>
 						Войти
@@ -105,11 +145,11 @@ const styles = StyleSheet.create({
 	appName: {
 		marginTop: 30,
 		fontSize: 55,
-    fontWeight: '900',
-    fontStyle: 'italic',
-    color: '#ffffff',
-    alignItems: 'center',
-    justifyContent: 'center',
+	    fontWeight: '900',
+	    fontStyle: 'italic',
+	    color: '#ffffff',
+	    alignItems: 'center',
+	    justifyContent: 'center',
 	},
 
 	loginForm: {
@@ -118,9 +158,9 @@ const styles = StyleSheet.create({
 		height: 100,
 		width: 280,
 		borderColor: '#ffffff',
-    borderStyle: 'solid',
-    borderWidth: 1,
-    borderRadius: 10,
+		borderStyle: 'solid',
+		borderWidth: 1,
+		borderRadius: 10,
 	},
 
 	numberContainer: {
@@ -130,14 +170,13 @@ const styles = StyleSheet.create({
 
 	number: {
 		fontSize: 12,
-    fontWeight: '400',
-    color: '#333333',
-    letterSpacing: 0.9,
-    marginLeft: 20,
+	    fontWeight: '400',
+	    color: '#333333',
+	    letterSpacing: 0.9,
+	    marginLeft: 20,
 	},
 
 	passwordContainer: {
-		
 		flex: 1,
 		justifyContent: 'center',
 		marginTop: '0.1%',
@@ -145,10 +184,10 @@ const styles = StyleSheet.create({
 
 	password: {
 		fontSize: 12,
-    fontWeight: '400',
-    color: '#333333',
-    letterSpacing: 0.9,
-    marginLeft: 20,
+	    fontWeight: '400',
+	    color: '#333333',
+	    letterSpacing: 0.9,
+	    marginLeft: 20,
 	},
 
 	entryContainer: {
@@ -203,3 +242,15 @@ const styles = StyleSheet.create({
 	},
 });
 
+const mapStateToProps = state => ({
+	errors: state.errors
+});
+
+const mapDispatchToProps = dispatch => ({
+	login: user => {
+		dispatch(login(user))
+	}
+});
+
+const LoginScreen = connect(mapStateToProps, mapDispatchToProps)(Login);
+export default LoginScreen

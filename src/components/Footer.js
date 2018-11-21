@@ -1,14 +1,21 @@
 import React, { Component } from 'react';
 import { Text, View, TouchableOpacity, StyleSheet } from 'react-native';
+import { Actions } from 'react-native-router-flux';
+import logout from '../actions/logout';
+import { connect } from 'react-redux';
 
 
-export default class Footer extends Component {
+class FooterComponent extends Component {
+	handleRequest() {
+		this.props.logout();
+	}
+
   render() {
 		return (
 			<View style={styles.container}>
 				<TouchableOpacity
 					style={styles.leftContainer}
-					onPress={() => {}}
+					onPress={this.handleRequest.bind(this)}
 				>
 					<Text style={styles.leftText}>
 						{this.props.textLeft}
@@ -17,7 +24,7 @@ export default class Footer extends Component {
 
 				<TouchableOpacity
 					style={styles.rightContainer}
-					onPress={() => {}}
+					onPress={this.props.nav}
 				>
 					<Text style={styles.rightText}>
 						{this.props.textRight}
@@ -27,6 +34,7 @@ export default class Footer extends Component {
 		);
   }
 }
+
 
 
 const styles = StyleSheet.create({
@@ -69,3 +77,13 @@ const styles = StyleSheet.create({
 
 
 });
+
+
+const mapDispatchToProps = dispatch => ({
+	logout: () => {
+		dispatch(logout())
+	}
+});
+
+const Footer = connect(undefined, mapDispatchToProps)(FooterComponent);
+export default Footer

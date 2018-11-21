@@ -19,13 +19,17 @@ export const invalidCreation = errors => ({
 
 export default function createNewUser(payload) {
 	return dispatch => {
+
 		dispatch(sendingData());
+
 		axios
 			.post('/api/users/register', payload)
 			.then(res => {
 				dispatch(userCreated());
 				Actions.auth();
 			})
-			.catch(err => dispatch(invalidCreation(err.response.data)));	
+			.catch(err =>{
+				dispatch(invalidCreation(err.response.data))
+			});	
 	};
 }

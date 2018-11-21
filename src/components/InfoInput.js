@@ -13,7 +13,7 @@ export default class InfoInput extends Component {
 						style={styles.info}
 						onChangeText={this.props.callback}
 						secureTextEntry={this.props.secure}
-						autoCapitilize='none'
+						autoCapitalize='none'
 						autoCorrect={false}
 					/>
 				</View>

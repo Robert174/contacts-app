@@ -87,8 +87,9 @@ export default class MeetingsScreen extends Component {
 				</View>
 
 				<Footer 
-					textLeft='Поиск'
-					textRight='Экспорт'
+					textLeft='Выйти'
+					textRight='Чат'
+					nav={Actions.chtscr}
 				/>
 			</View>
 		);

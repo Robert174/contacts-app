@@ -20,10 +20,10 @@ const authReducer = (state=initialStore, action) => {
 				fetching: false
 			}
 		case SET_CURRENT_USER:
-			return{
+			return {
 				...state,
-				user: action.payload,
-				isAuthenticated: Objects.keys(action.payload).length !== 0
+				isAuthenticated: Object.keys(action.payload).length !== 0,
+				user: action.payload
 			}
 		default:
 			return state;
